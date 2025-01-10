@@ -10,7 +10,7 @@ resource "aws_iam_policy" "sns_policy" {
       {
         Action = "sns:Publish",
         Effect   = "Allow",
-        Resource = "var.gd_arn"
+        Resource = "${var.gd_arn}"
       },
     ]
   })
