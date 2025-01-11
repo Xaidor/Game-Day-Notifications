@@ -8,4 +8,3 @@ module "mod-iam-sns" {
 
     gd_arn = module.gd-mod-sns.sns_arn
 }
-
