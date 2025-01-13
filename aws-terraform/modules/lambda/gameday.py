@@ -54,10 +54,10 @@ def lambda_handler(event, context):
     sns_topic_arn = os.getenv("SNS_TOPIC_ARN")
     sns_client = boto3.client("sns")
     
-    # Adjust for Central Time (UTC-6)
+    # UTC Time
     utc_now = datetime.now(timezone.utc)
-    central_time = utc_now - timedelta(hours=6)  # Central Time is UTC-6
-    today_date = central_time.strftime("%Y-%m-%d")
+    eastern_time = utc_now - timedelta(hours=5)  # Estern Time is UTC-5 Central Time is UTC-6
+    today_date = eastern_time.strftime("%Y-%m-%d")
     
     print(f"Fetching games for date: {today_date}")
     
