@@ -14,6 +14,10 @@ keep in mind youll need .terraform.tfvars file or have to input your credentials
 resource "aws_secretsmanager_secret" "nfl_api_key" {
   name = "nfl-api-key"
   description = "API key for NFL Sports Data API"
+
+  lifecycle {
+    create_before_destroy = true  # Allows Terraform to destory secret automatically, allowing it to replace the secret
+  }
 }
 
 resource "aws_secretsmanager_secret_version" "nfl_api_key" {

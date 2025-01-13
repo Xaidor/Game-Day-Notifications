@@ -36,6 +36,8 @@ resource "aws_iam_policy" "sns_policy" {
   })
 }
 
+# EventBridge Policy 
+
 # Lambda Policy + Role
 resource "aws_iam_role" "lambda_role" {
   name = "test_lambda_role"
