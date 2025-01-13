@@ -12,6 +12,7 @@ module "mod-iam-sns" {
   source      = "./modules/iam-policy"
   gd_arn      = module.gd-mod-sns.sns_arn
   nfl_secrets = module.gd_secrets.secrets_arn
+  sns_arn = module.gd-mod-sns.sns_arn
 }
 
 module "lambda-function-mod" {

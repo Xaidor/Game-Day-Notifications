@@ -5,3 +5,7 @@ variable "gd_arn" {
 variable "nfl_secrets" {
     description = "secret NBA API key"
 }
+
+variable "sns_arn" {
+    description = "SNS arn filler variable"
+}

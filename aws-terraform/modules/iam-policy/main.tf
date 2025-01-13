@@ -37,6 +37,41 @@ resource "aws_iam_policy" "sns_policy" {
 }
 
 # EventBridge Policy 
+# EventBridge Scheduler Role
+resource "aws_iam_role" "scheduler_role" {
+  name = "game-day-scheduler-role"
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Principal = {
+          Service = "scheduler.amazonaws.com" # Allow EventBridge Scheduler to assume this role
+        }
+        Action = "sts:AssumeRole"
+      }
+    ]
+  })
+}
+
+# Policy for EventBridge Scheduler Role
+resource "aws_iam_policy" "scheduler_policy" {
+  name = "game-day-scheduler-policy"
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Effect = "Allow"
+        Action = [
+          "sns:Publish"
+        ]
+        Resource = var.sns_arn
+      }
+    ]
+  })
+}
 
 # Lambda Policy + Role
 resource "aws_iam_role" "lambda_role" {
@@ -56,15 +91,22 @@ resource "aws_iam_role" "lambda_role" {
   })
 }
 
-resource "aws_iam_role_policy_attachment" "sns_publish_attachment" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = aws_iam_policy.sns_policy.arn
-}
-resource "aws_iam_role_policy_attachment" "basic_execution_attachment" {
-  role       = aws_iam_role.lambda_role.name
-  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" 
-}
 resource "aws_iam_role_policy_attachment" "secrets_policy_attachment" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = aws_iam_policy.secrets_policy.arn
 }
+resource "aws_iam_role_policy_attachment" "sns_publish_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = aws_iam_policy.sns_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "scheduler_policy_attachment" {
+  role       = aws_iam_role.scheduler_role.name
+  policy_arn = aws_iam_policy.scheduler_policy.arn
+}
+
+resource "aws_iam_role_policy_attachment" "basic_execution_attachment" {
+  role       = aws_iam_role.lambda_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" 
+}
+
