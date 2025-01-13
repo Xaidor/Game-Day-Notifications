@@ -5,4 +5,10 @@ resource "aws_lambda_function" "gd_function" {
   filename         = "${path.module}/function.zip"
   source_code_hash = filebase64sha256("${path.module}/function.zip")
   role            = var.role
+
+  environment {
+    variables = {
+      SNS_TOPIC_ARN = var.sns_env_arn
+    }
+  }
 }
