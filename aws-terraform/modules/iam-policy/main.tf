@@ -1,3 +1,4 @@
+# Secrets Manger Policy
 data "aws_iam_policy_document" "secrets_policy" {
   statement {
     effect = "Allow"
@@ -5,10 +6,19 @@ data "aws_iam_policy_document" "secrets_policy" {
       "secretsmanager:GetSecretValue"
     ]
     resources = [
-      var.nfl_secrets
+      var.nfl_secrets # The ARN of the Secrets manger 
     ]
   }
 }
+
+resource "aws_iam_policy" "secrets_policy" {
+  name        = "secrets-access-policy"
+  path        = "/test-game-day-policy/"
+  description = "Policy for accessing secrets"
+  policy      = data.aws_iam_policy_document.secrets_policy.json
+}
+
+# SNS Policy
 resource "aws_iam_policy" "sns_policy" {
   name        = "gd_sns_policy"
   path        = "/test-game-day-policy/" #A great way to keep things organized for multi-environment setups, Not really needed for smaller projects. 
@@ -26,6 +36,7 @@ resource "aws_iam_policy" "sns_policy" {
   })
 }
 
+# Lambda Policy + Role
 resource "aws_iam_role" "lambda_role" {
   name = "test_lambda_role"
 
