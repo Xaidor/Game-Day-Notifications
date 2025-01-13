@@ -19,7 +19,7 @@ module "lambda-function-mod" {
     role = module.mod-iam-sns.Lambda_role_arn
    
     sns_env_arn  = module.gd-mod-sns.sns_arn 
-    nfl_api       = var.nfl_api_key
+    nfl_api_key   = var.nfl_api_key
 }
 
 module "EventBridge" {
