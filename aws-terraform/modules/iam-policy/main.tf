@@ -1,3 +1,14 @@
+data "aws_iam_policy_document" "secrets_policy" {
+  statement {
+    effect = "Allow"
+    actions = [
+      "secretsmanager:GetSecretValue"
+    ]
+    resources = [
+      aws_secretsmanager_secret.nba_api_key.arn
+    ]
+  }
+}
 resource "aws_iam_policy" "sns_policy" {
   name        = "gd_sns_policy"
   path        = "/test-game-day-policy/" #A great way to keep things organized for multi-environment setups, Not really needed for smaller projects. 
@@ -40,3 +51,4 @@ resource "aws_iam_role_policy_attachment" "basic_execution_attachment" {
   role       = aws_iam_role.lambda_role.name
   policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" 
 }
+
