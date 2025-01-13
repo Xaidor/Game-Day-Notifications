@@ -10,14 +10,12 @@ You're building an enterprise application
 You need centralized secret management
 
 keep in mind youll need .terraform.tfvars file or have to input your credentials in the CLI
+
+When you destroy a key it takes about 7 days to be destroyed. You'll have to create a new secret if you choose to use this in your infrastructure
 */
 resource "aws_secretsmanager_secret" "nfl_api_key" {
   name = "nfl-api-key"
   description = "API key for NFL Sports Data API"
-
-  lifecycle {
-    create_before_destroy = true  # Allows Terraform to destory secret automatically, allowing it to replace the secret
-  }
 }
 
 resource "aws_secretsmanager_secret_version" "nfl_api_key" {

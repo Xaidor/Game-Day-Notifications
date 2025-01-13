@@ -1,7 +1,7 @@
 variable "subscriber_email" {
   description = "Subscriber(s) email"
   type        = string
-  default     = ""
+  default     = "<your-email>"
 }
 
 variable "region" {
