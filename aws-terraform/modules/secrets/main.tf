@@ -1,9 +1,9 @@
-resource "aws_secretsmanager_secret" "nba_api_key" {
-  name = "nba-api-key"
-  description = "API key for NBA Sports Data API"
+resource "aws_secretsmanager_secret" "nfl_api_key" {
+  name = "nfl-api-key"
+  description = "API key for NFL Sports Data API"
 }
 
-resource "aws_secretsmanager_secret_version" "nba_api_key" {
-  secret_id     = aws_secretsmanager_secret.nba_api_key.id
-  secret_string = var.nba_api_key  # You'll provide this securely during deployment
+resource "aws_secretsmanager_secret_version" "nfl_api_key" {
+  secret_id     = aws_secretsmanager_secret.nfl_api_key.id
+  secret_string = var.nfl_api_key  # You'll prompt to provide the api key during deployment in the terminal
 }

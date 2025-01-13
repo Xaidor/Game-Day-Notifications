@@ -6,15 +6,15 @@ from datetime import datetime, timedelta, timezone
 
 def format_game_data(game):
     status = game.get("Status", "Unknown")
-    away_team = game.get("AwayTeam", "Unknown")
-    home_team = game.get("HomeTeam", "Unknown")
+    away_team = game.get("AwayTeamName", "Unknown") # Grab the away teams name 
+    home_team = game.get("HomeTeamName", "Unknown") # Grabs the hoem teams name 
     final_score = f"{game.get('AwayTeamScore', 'N/A')}-{game.get('HomeTeamScore', 'N/A')}"
     start_time = game.get("DateTime", "Unknown")
     channel = game.get("Channel", "Unknown")
     
     # Format quarters
-    quarters = game.get("Quarters", [])
-    quarter_scores = ', '.join([f"Q{q['Number']}: {q.get('AwayScore', 'N/A')}-{q.get('HomeScore', 'N/A')}" for q in quarters])
+    quarters = game.get("Quarter", ["AwayScoreQuarter1","AwayScoreQuarter2", "AwayScoreQuarter3", "AwayScoreQuarter4", "HomeScoreQuarter1", "HomeScoreQuarter2", "HomeScoreQuarter3", "HomeScoreQuarter4"])
+    quarter_scores = ', '.join([f"Q{q['Number']}: {q.get('AwayTeamScore', 'N/A')}-{q.get('HomeTeamScore', 'N/A')}" for q in quarters]) 
     
     if status == "Final":
         return (
@@ -50,7 +50,7 @@ def format_game_data(game):
 
 def lambda_handler(event, context):
     # Get environment variables
-    api_key = os.getenv("NBA_API_KEY")
+    api_key = os.getenv("NFL_API_KEY")
     sns_topic_arn = os.getenv("SNS_TOPIC_ARN")
     sns_client = boto3.client("sns")
     
@@ -62,7 +62,7 @@ def lambda_handler(event, context):
     print(f"Fetching games for date: {today_date}")
     
     # Fetch data from the API
-    api_url = f"https://api.sportsdata.io/v3/nba/scores/json/GamesByDate/{today_date}?key={api_key}"
+    api_url = f"https://api.sportsdata.io/v3/nfl/scores/json/ScoresByDate/{today_date}?key={api_key}"
     print(today_date)
      
     try:
@@ -82,7 +82,7 @@ def lambda_handler(event, context):
         sns_client.publish(
             TopicArn=sns_topic_arn,
             Message=final_message,
-            Subject="NBA Game Updates"
+            Subject="NFL Game Updates"
         )
         print("Message published to SNS successfully.")
     except Exception as e:

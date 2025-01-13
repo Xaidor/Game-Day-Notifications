@@ -1,3 +1,3 @@
-variable "nba_api_key" {
+variable "nfl_api_key" {
   
 }
