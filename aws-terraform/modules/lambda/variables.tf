@@ -3,5 +3,9 @@ variable "role" {
 }
 
 variable "sns_env_arn" {
-    description = "SNS_TOPIC_ARN var ro input into script"
+    description = "SNS_TOPIC_ARN var to input into script"
+}
+
+variable "nfl_api" {
+    description = "NFL_API_KEY Sports.io NFL API key" 
 }

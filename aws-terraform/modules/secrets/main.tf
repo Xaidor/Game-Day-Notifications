@@ -5,5 +5,5 @@ resource "aws_secretsmanager_secret" "nfl_api_key" {
 
 resource "aws_secretsmanager_secret_version" "nfl_api_key" {
   secret_id     = aws_secretsmanager_secret.nfl_api_key.id
-  secret_string = var.nfl_api_key  # You'll prompt to provide the api key during deployment in the terminal
+  secret_string = var.nfl_api_key # You'll prompt to provide the api key during deployment in the terminal
 }

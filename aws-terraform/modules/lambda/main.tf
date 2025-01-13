@@ -9,6 +9,7 @@ resource "aws_lambda_function" "gd_function" {
   environment {
     variables = {
       SNS_TOPIC_ARN = var.sns_env_arn
+      NFL_API_KEY = var.nfl_api
     }
   }
 }

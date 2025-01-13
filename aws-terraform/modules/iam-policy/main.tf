@@ -1,7 +1,3 @@
-resource "aws_secretsmanager_secret" "nfl_api_key" {
-  name        = "nfl-api-key"
-  description = "API key for NBA Sports Data API"
-}
 data "aws_iam_policy_document" "secrets_policy" {
   statement {
     effect = "Allow"
@@ -9,7 +5,7 @@ data "aws_iam_policy_document" "secrets_policy" {
       "secretsmanager:GetSecretValue"
     ]
     resources = [
-      aws_secretsmanager_secret.nfl_api_key.arn
+      var.nfl_secrets
     ]
   }
 }
