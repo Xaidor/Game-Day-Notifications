@@ -1,3 +1,5 @@
+# Subscription
+
 resource "aws_sns_topic" "game_day_sns" {
   name = "game-topic"
 }
